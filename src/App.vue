@@ -30,6 +30,7 @@ const doEdit = (e) => {
       Add Item
     </button>
   </div>
+  <a v-bind:href="newItem">Dynamic Link</a>
   <form class="add-item-form" v-on:submit.prevent="saveItem" v-if="editing">
     <input type="text" placeholder="Add an Item" v-model.lazy="newItem" />
 
