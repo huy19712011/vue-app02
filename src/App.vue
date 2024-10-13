@@ -11,14 +11,15 @@ const items = ref([
 const newItem = ref("");
 const newItemPriority = ref("low");
 const newItemHighPriority = ref(false);
+const saveItem = () => {
+  items.value.push({ id: items.value.length + 1, label: newItem.value });
+  newItem.value = "";
+};
 </script>
 
 <template>
   <h1>{{ header }}</h1>
-  <form
-    class="add-item-form"
-    v-on:submit.prevent="items.push({ id: items.length + 1, label: newItem })"
-  >
+  <form class="add-item-form" v-on:submit.prevent="saveItem">
     <input type="text" placeholder="Add an Item" v-model.lazy="newItem" />
 
     <label>
