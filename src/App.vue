@@ -10,6 +10,10 @@ const items = ref([
   { id: 3, label: "20 cups", purchased: false, hightPriority: true },
 ]);
 
+const reversedItems = computed(() => {
+  return [...items.value].reverse();
+});
+
 const newItem = ref("");
 const newItemPriority = ref("low");
 const newItemHighPriority = ref(false);
@@ -53,7 +57,7 @@ const togglePurchased = (item) => {
   <p class="counter">{{ characterCount }}</p>
   <ul>
     <li
-      v-for="({ id, label, purchased, hightPriority }, index) in items"
+      v-for="({ id, label, purchased, hightPriority }, index) in reversedItems"
       @click="togglePurchased(items[index])"
       :key="id"
       :class="{
