@@ -1,7 +1,9 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 const header = ref("Shopping List App");
-
+const characterCount = computed(() => {
+  return newItem.value.length;
+});
 const items = ref([
   { id: 1, label: "10 party hats", purchased: true, hightPriority: false },
   { id: 2, label: "2 board games", purchased: true, hightPriority: false },
@@ -39,7 +41,7 @@ const togglePurchased = (item) => {
     </button>
   </div>
   <form class="add-item-form" v-on:submit.prevent="saveItem" v-if="editing">
-    <input type="text" placeholder="Add an Item" v-model.lazy="newItem" />
+    <input type="text" placeholder="Add an Item" v-model="newItem" />
 
     <label>
       <input type="checkbox" v-model="newItemHighPriority" /> Hight Priority
@@ -48,6 +50,7 @@ const togglePurchased = (item) => {
       Save Item
     </button>
   </form>
+  <p class="counter">{{ characterCount }}</p>
   <ul>
     <li
       v-for="({ id, label, purchased, hightPriority }, index) in items"
