@@ -13,12 +13,20 @@ const newItemPriority = ref("low");
 const newItemHighPriority = ref(false);
 const editing = ref(false);
 const saveItem = () => {
-  items.value.push({ id: items.value.length + 1, label: newItem.value });
+  items.value.push({
+    id: items.value.length + 1,
+    label: newItem.value,
+    hightPriority: newItemHighPriority.value,
+  });
   newItem.value = "";
+  newItemHighPriority.value = false;
 };
 const doEdit = (e) => {
   editing.value = e;
   newItem.value = "";
+};
+const togglePurchased = (item) => {
+  item.purchased = !item.purchased;
 };
 </script>
 
@@ -42,22 +50,14 @@ const doEdit = (e) => {
   </form>
   <ul>
     <li
-      v-for="{ id, label, purchased, hightPriority } in items"
+      v-for="({ id, label, purchased, hightPriority }, index) in items"
+      @click="togglePurchased(items[index])"
       :key="id"
       :class="{
         strikeout: purchased,
         priority: hightPriority,
         'static-class': true,
       }"
-    >
-      {{ label }}
-    </li>
-
-    <li
-      v-for="{ id, label, purchased, hightPriority } in items"
-      :key="id"
-      class="static-class"
-      :class="[purchased ? 'strikeout' : '', hightPriority ? 'priority' : '']"
     >
       {{ label }}
     </li>
