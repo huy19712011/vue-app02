@@ -3,9 +3,9 @@ import { ref } from "vue";
 const header = ref("Shopping List App");
 
 const items = ref([
-  // { id: 1, label: "10 party hats" },
-  // { id: 2, label: "2 board games" },
-  // { id: 3, label: "20 cups" },
+  { id: 1, label: "10 party hats", purchased: true, hightPriority: false },
+  { id: 2, label: "2 board games", purchased: true, hightPriority: false },
+  { id: 3, label: "20 cups", purchased: false, hightPriority: true },
 ]);
 
 const newItem = ref("");
@@ -30,17 +30,37 @@ const doEdit = (e) => {
       Add Item
     </button>
   </div>
-  <a v-bind:href="newItem">Dynamic Link</a>
   <form class="add-item-form" v-on:submit.prevent="saveItem" v-if="editing">
     <input type="text" placeholder="Add an Item" v-model.lazy="newItem" />
 
     <label>
       <input type="checkbox" v-model="newItemHighPriority" /> Hight Priority
     </label>
-    <button class="btn btn-primary">Save Item</button>
+    <button class="btn btn-primary" v-bind:disabled="newItem.length < 3">
+      Save Item
+    </button>
   </form>
   <ul>
-    <li v-for="{ id, label } in items" :key="id">{{ label }}</li>
+    <li
+      v-for="{ id, label, purchased, hightPriority } in items"
+      :key="id"
+      :class="{
+        strikeout: purchased,
+        priority: hightPriority,
+        'static-class': true,
+      }"
+    >
+      {{ label }}
+    </li>
+
+    <li
+      v-for="{ id, label, purchased, hightPriority } in items"
+      :key="id"
+      class="static-class"
+      :class="[purchased ? 'strikeout' : '', hightPriority ? 'priority' : '']"
+    >
+      {{ label }}
+    </li>
   </ul>
   <p v-if="!items.length">Nothing to see here</p>
 </template>
